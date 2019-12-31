@@ -9,12 +9,16 @@ const runBundleRenderer = async () => {
         outDir: './dist/renderer/',
         outFile: 'index.html',
         contentHash: false,
+        serve: process.env.NODE_ENV === 'development',
         publicUrl: '/dist/renderer/',
         target: 'browser',
         detailedReport: false,
     };
     const bundler = new Bundler(file, options);
-    const bundle = await bundler.serve();
+    await bundler.serve();
+    if (process.env.NODE_ENV !== 'development') {
+        process.exit(0);
+    }
 };
 
 const runBundleMain = async () => {
@@ -23,12 +27,16 @@ const runBundleMain = async () => {
         outDir: './dist/main/',
         outFile: 'index.js',
         hmr: false,
+        serve: process.env.NODE_ENV === 'development',
         contentHash: false,
         target: 'node',
         detailedReport: true,
     };
     const bundler = new Bundler(file, options);
     const bundle = await bundler.bundle();
+    if (process.env.NODE_ENV !== 'development') {
+        process.exit(0);
+    }
     electron.start();
     bundler.on('buildEnd', () => {
         electron.restart();
