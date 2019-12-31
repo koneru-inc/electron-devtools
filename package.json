@@ -1,6 +1,6 @@
 {
     "name": "electron-devtools",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "All logs and network activity in one browser window",
     "main": "./dist/main/index.js",
     "scripts": {
