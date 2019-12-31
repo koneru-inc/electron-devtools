@@ -2,7 +2,7 @@
     export let name;
 </script>
 
-<style>
+<style lang="scss">
     h1 {
         text-align: center;
     }
