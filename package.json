@@ -6,7 +6,8 @@
     "scripts": {
         "start": "cross-env NODE_ENV=development node ./build.js",
         "build": "cross-env NODE_ENV=production node ./build.js",
-        "test": "echo \"No test specified\""
+        "test": "echo \"No test specified\"",
+        "publish:npm": "npx np"
     },
     "browserslist": [
         "last 1 chrome versions"
