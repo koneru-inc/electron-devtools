@@ -2,7 +2,7 @@
     export const name: string = 'World';
 </script>
 
-<style>
+<style lang="scss">
     h1 {
         text-align: center;
         font-size: 25px;
