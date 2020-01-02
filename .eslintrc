@@ -1,17 +1,24 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier", "plugin:css-modules/recommended"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    // Движку нужен проект TS для правил с типами
     "project": "./tsconfig.json",
     "tsconfigRootDir": "."
   },
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "css-modules", "svelte3"],
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "error",
     "prettier/prettier": "error",
-    "indent": ["error", 4]
+    "indent": ["error", 4],
+    "linebreak-style": ["error", "unix"],
+    "css-modules/no-unused-class": [2, { "camelCase": true }],
+    "css-modules/no-undef-class": [2, { "camelCase": true }]
   }
 }

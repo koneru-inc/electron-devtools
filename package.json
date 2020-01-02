@@ -6,7 +6,7 @@
     "scripts": {
         "start": "cross-env NODE_ENV=development node ./build.js",
         "build": "cross-env NODE_ENV=production node ./build.js",
-        "test": "echo \"No test specified\"",
+        "test": "npx eslint ./src/**/*.ts ./src/**/*.js ./src/**/*.svelte",
         "publish:npm": "npx np"
     },
     "browserslist": [
@@ -32,7 +32,9 @@
         "electron-log": "^4.0.2",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.9.0",
+        "eslint-plugin-css-modules": "^2.11.0",
         "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-svelte3": "^2.7.3",
         "husky": "^3.1.0",
         "jest": "^24.9.0",
         "lodash": "^4.17.15",
