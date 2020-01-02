@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es2018",
+        "baseUrl": ".",
+        "noImplicitAny": true,
+        "sourceMap": true
+    },
+    "files": ["./src/types/svelte.d.ts"],
+    "include": ["src/**/*"]
+}
