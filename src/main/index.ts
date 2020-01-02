@@ -1,9 +1,9 @@
-const { app, BrowserWindow } = require('electron');
-const isDev = require('electron-is-dev');
+import { app, BrowserWindow } from 'electron';
+import * as isDev from 'electron-is-dev';
 
-let mainWindow;
+let mainWindow: BrowserWindow | null;
 
-function createWindow() {
+function createWindow(): void {
     mainWindow = new BrowserWindow({
         width: 900,
         height: 600,
@@ -12,7 +12,7 @@ function createWindow() {
     if (isDev) {
         mainWindow.loadURL('http://localhost:1234');
     } else {
-        // mainWindow.loadFile('index.html');
+        mainWindow.loadFile('../renderer/index.html');
     }
     mainWindow.webContents.openDevTools();
 

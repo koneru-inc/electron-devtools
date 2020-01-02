@@ -22,7 +22,7 @@ const runBundleRenderer = async () => {
 };
 
 const runBundleMain = async () => {
-    const file = path.join(__dirname, './src/main/index.js');
+    const file = path.join(__dirname, './src/main/index.ts');
     const options = {
         outDir: './dist/main/',
         outFile: 'index.js',

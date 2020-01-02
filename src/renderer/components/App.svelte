@@ -1,5 +1,5 @@
-<script lang="typescript">
-    export const name: string = 'World';
+<script>
+    export const name = 'World';
 </script>
 
 <style lang="scss">
