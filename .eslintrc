@@ -15,9 +15,9 @@
     }
   ],
   "rules": {
-    "prettier/prettier": "error",
+    // "prettier/prettier": "error",
     "indent": ["error", 4],
-    "linebreak-style": ["error", "unix"],
+    // "linebreak-style": ["error", "unix"],
     "css-modules/no-unused-class": [2, { "camelCase": true }],
     "css-modules/no-undef-class": [2, { "camelCase": true }]
   }
