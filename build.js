@@ -33,7 +33,7 @@ const runBundleMain = async () => {
         detailedReport: true,
     };
     const bundler = new Bundler(file, options);
-    const bundle = await bundler.bundle();
+    await bundler.bundle();
     if (process.env.NODE_ENV !== 'development') {
         process.exit(0);
     }

@@ -6,7 +6,7 @@
     "scripts": {
         "start": "cross-env NODE_ENV=development node ./build.js",
         "build": "cross-env NODE_ENV=production node ./build.js",
-        "test": "npx eslint ./src/**/*.ts ./src/**/*.js ./src/**/*.svelte",
+        "test": "npx eslint ./src/**/*.ts ./src/**/*.js ./src/**/*.svelte --fix",
         "publish:npm": "npx np"
     },
     "browserslist": [

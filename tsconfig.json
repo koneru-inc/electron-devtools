@@ -5,9 +5,10 @@
         "baseUrl": ".",
         "sourceMap": true,
         "strict": true,
+        "skipDefaultLibCheck": true,
         "paths": {
             "*": ["node_modules/*"]
         }
     },
-    "include": ["src/**/*"]
+    "exclude": ["dist/**/*", "node_modules/**/*"]
 }
