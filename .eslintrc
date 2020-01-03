@@ -12,6 +12,13 @@
     {
       "files": ["**/*.svelte"],
       "processor": "svelte3/svelte3"
+    },
+    {
+      "files": ["**/*.js"],
+      "rules": {
+          "@typescript-eslint/no-var-requires": 0,
+          "@typescript-eslint/explicit-function-return-type": 0
+      }
     }
   ],
   "rules": {
