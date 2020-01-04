@@ -8,6 +8,6 @@ const routes = {
     '/network/': Network,
     '/api/': Api,
     '/rpc/': Rpc,
-}
+};
 
-export default routes
+export default routes;
