@@ -1,10 +1,7 @@
 <script>
-    import Router from 'svelte-spa-router'
-    import {location} from 'svelte-spa-router'
     import Header from './Header/Header'
-    import routes from '../router/routes'
-    console.log("TCL: routes", routes)
-
+    import Main from './Main/Main.svelte'
+    import Footer from './Footer/Footer'
 </script>
 
 <style lang="scss">
@@ -12,6 +9,6 @@
 
 <Header />
 
-<p>Вы находитесь на {$location}</p>
+<Main />
 
-<Router {routes}/>
+<Footer />

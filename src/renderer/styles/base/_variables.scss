@@ -1,0 +1,77 @@
+// Colors
+$black: #333;
+$white: #fff;
+$gray: #ccc;
+
+// Fonts
+$base-font-sans-serif: "Open Sans", "Raleway", "Helvetica Neue", "Helvetica", sans-serif;
+
+// Body
+$base-background-color: $white !default;
+$font-size-base: 13px !default;
+$font-weight-base: 400 !default;
+$base-line-height: 1.6 !default;
+$base-min-width: 320px !default;
+$base-color: $black !default;
+$base-font-family: $base-font-sans-serif;
+
+// Container
+$base-max-width: 1200px !default;
+$base-padding: 0 15px !default;
+
+// form
+$base-input-bg-color: transparent;
+$base-form-color: #656565;
+$base-form-font-family: $base-font-sans-serif;
+$base-form-border-radius: none;
+$form-element-padding: 10px 13px !default;
+$form-element-border-color: #4f4f4f !default;
+$form-element-focus-border-color: $black !default;
+$form-element-font-size: 12px !default;
+$form-element-line-height: 1 !default;
+$form-element-font-weight: 400 !default;
+$placeholder-color: #656565 !default;
+$placeholder-hover-color: #656565;
+
+// Links
+$base-link-color: $white !default;
+$base-link-font-weight: 400 !default;
+$base-link-hover-color: $black !default;
+
+// Buttons
+$btn-color: $black !default;
+$btn-border-radius: 0 !default;
+$btn-padding: 9px 10px !default;
+$btn-font-size: 14px !default;
+$btn-font-weight: 500 !default;
+$btn-line-height: 1 !default;
+$btn-background-color: $white;
+$btn-min-width: 150px;
+$btn-border: 2px solid $black;
+$btn-form-min-width: 100%;
+$btn-form-border-radius: 0;
+$btn-form-background: $white;
+$btn-form-border: 1px solid transparent;
+$btn-form-color: $white;
+$btn-form-padding: 8px 10px;
+$btn-form-font-family: $base-font-sans-serif;
+
+// Headers
+$h1-font-size: 44px !default;
+$h2-font-size: 24px !default;
+$h3-font-size: 14px !default;
+$h4-font-size: 22px !default;
+$h5-font-size: 18px !default;
+$h6-font-size: 14px !default;
+$headings-line-height: 1;
+$headings-font-family: $base-font-sans-serif;
+
+// blockquote
+$blockquote-color: $white;
+$blockquote-font-size: 16px;
+$blockquote-font-family: $base-font-sans-serif;
+$blockquote-font-weight: 400;
+$blockquote-opacity: .85;
+$blockquote-margin:  0 0 43px;
+$blockquote-line-height: 1.7;
+$blockquote-padding: 62px 0 0;
