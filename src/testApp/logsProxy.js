@@ -2,24 +2,24 @@ process.once('loaded', () => {
     const defaultLogger = {};
     const keys = ['log', 'error', 'warn'];
 
-    const isRenderer = () => {
-        // running in a web browser
-        if (typeof process === 'undefined') {
-            return true;
-        }
+    // const isRenderer = () => {
+    //     // running in a web browser
+    //     if (typeof process === 'undefined') {
+    //         return true;
+    //     }
 
-        // node-integration is disabled
-        if (!process) {
-            return true;
-        }
+    //     // node-integration is disabled
+    //     if (!process) {
+    //         return true;
+    //     }
 
-        // We're in node.js somehow
-        if (!process.type) {
-            return false;
-        }
+    //     // We're in node.js somehow
+    //     if (!process.type) {
+    //         return false;
+    //     }
 
-        return process.type === 'renderer';
-    };
+    //     return process.type === 'renderer';
+    // };
 
     const jsonify = obj => {
         if (!obj) {
