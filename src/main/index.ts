@@ -61,6 +61,7 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 
     ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', (event, ...args) => {
         console.log(...args);
+        devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE/log', ...args);
         LOGS_STORE.push({
             type: args[0],
             payload: args.slice(1),
