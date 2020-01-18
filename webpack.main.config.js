@@ -24,6 +24,7 @@ module.exports = {
     entry: {
         'testApp/logsProxy': ['./src/testApp/logsProxy.js'],
         'testApp/index': ['./src/testApp/index.ts'],
+        'testApp/testApp': ['./src/testApp/testApp.js'],
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
