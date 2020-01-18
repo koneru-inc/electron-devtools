@@ -1,32 +1,97 @@
-import { app, BrowserWindow } from 'electron';
+import { BrowserWindow, app, ipcMain } from 'electron';
 import * as isDev from 'electron-is-dev';
+import * as q from 'q';
 
-let mainWindow: BrowserWindow | null;
+import { InitDevToolsModuleParams, LogItem } from './types';
 
-function createWindow(): void {
-    mainWindow = new BrowserWindow({
+let devToolsWindow: BrowserWindow | null;
+const LOGS_STORE: LogItem[] = [];
+
+const showDevToolsWindow = async (): Promise<void> => {
+    if (devToolsWindow) {
+        devToolsWindow.show();
+        devToolsWindow.focus();
+        return;
+    }
+
+    devToolsWindow = new BrowserWindow({
         width: 900,
         height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+        },
     });
 
     if (isDev) {
-        mainWindow.loadURL('http://localhost:1234');
+        await devToolsWindow.loadURL('http://localhost:1234/dist/renderer/');
+        devToolsWindow.webContents.openDevTools();
     } else {
-        mainWindow.loadFile('../renderer/index.html');
+        await devToolsWindow.loadFile('../renderer/index.html');
     }
-    mainWindow.webContents.openDevTools();
 
-    mainWindow.on('closed', () => {
-        mainWindow = null;
+    devToolsWindow.on('closed', () => {
+        devToolsWindow = null;
     });
-}
+};
 
-app.on('ready', createWindow);
+const hideDevToolsWindow = async (): Promise<void> => {
+    if (!devToolsWindow) {
+        return;
+    }
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
-});
+    devToolsWindow.close();
+};
 
-app.on('activate', () => {
-    if (mainWindow === null) createWindow();
-});
+const setHandlersOnWindow = async (win: BrowserWindow): Promise<void> => {
+    // if (devToolsWindow && devToolsWindow.id === win.id) {
+    //     return;
+    // }
+    console.log('patched', win.id);
+};
+
+const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
+    const deffer = q.defer();
+
+    if (!app.isReady()) {
+        app.once('ready', deffer.resolve);
+        await deffer.promise;
+    }
+
+    // const string = fs.readFileSync(__dirname + '/logsProxy.js', 'utf8');
+
+    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', (event, ...args) => {
+        console.log(...args);
+        LOGS_STORE.push({
+            type: args[0],
+            payload: args.slice(1),
+        });
+        console.trace(...LOGS_STORE);
+    });
+
+    console.log(show);
+    if (show || (show === undefined && process.env.NODE_ENV === 'development')) {
+        await showDevToolsWindow();
+    }
+    // Set all handlers and init some store
+    BrowserWindow.getAllWindows().forEach(setHandlersOnWindow);
+
+    app.on('browser-window-created', (event, newWindow) => {
+        setHandlersOnWindow(newWindow);
+    });
+};
+const logger = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    send: (...args: any[]): void => {
+        LOGS_STORE.push({
+            type: args[0],
+            payload: args.slice(1),
+        });
+    },
+};
+
+export default {
+    showDevToolsWindow,
+    init,
+    hideDevToolsWindow,
+    logger,
+};
