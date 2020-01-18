@@ -1,12 +1,7 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
     extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
-    parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: 'module',
-        project: './tsconfig.json',
-        tsconfigRootDir: '.',
-    },
+    root: true,
     plugins: ['prettier', 'svelte3'],
     overrides: [
         {

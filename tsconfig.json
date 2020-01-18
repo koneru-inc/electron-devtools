@@ -2,13 +2,16 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es2018",
+        "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
         "sourceMap": true,
+        "allowJs": true,
         "strict": true,
         "skipDefaultLibCheck": true,
         "paths": {
-            "*": ["node_modules/*"]
+            "*": ["node_modules/*"],
+            "@main/*": ["./src/main/*"]
         }
     },
-    "exclude": ["dist/**/*", "node_modules/**/*"]
+    "files": ["./globals.d.ts"],
 }
