@@ -15,6 +15,7 @@ module.exports = {
     resolve: {
         alias: {
             svelte: path.resolve('node_modules', 'svelte'),
+            loglevel: path.resolve('node_modules', 'loglevel', 'lib', 'loglevel.js'),
         },
         extensions: ['.mjs', '.js', '.svelte', '.ts'],
         mainFields: ['module', 'svelte'],
@@ -78,7 +79,7 @@ module.exports = {
     devServer: {
         headers: { 'Access-Control-Allow-Origin': '*' },
         writeToDisk: true,
-        liveReload: false,
+        liveReload: true,
         contentBase: path.join(__dirname, 'dist', 'renderer'),
     },
     devtool: prod ? false : 'source-map',
