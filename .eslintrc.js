@@ -19,7 +19,7 @@ module.exports = {
     rules: {
         'prettier/prettier': 'error',
         indent: ['error', 4],
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': 0,
     },
     settings: {
         'svelte3/ignore-styles': attributes => attributes.lang === 'scss',

@@ -55,6 +55,7 @@
     "scripts": {
         "build": "cross-env NODE_ENV=production webpack",
         "dev": "run-p build:main build:renderer",
+        "test": "eslint \"src/**/*js\" \"src/**/*ts\" --fix",
         "build:main": "webpack-dev-server --config=./webpack.main.config.js",
         "build:renderer": "webpack-dev-server --config=./webpack.renderer.config.js"
     },
