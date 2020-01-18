@@ -65,7 +65,7 @@ module.exports = {
             },
         ],
     },
-    target: 'web',
+    target: 'electron-renderer',
     mode,
     plugins: [
         new MiniCssExtractPlugin({
