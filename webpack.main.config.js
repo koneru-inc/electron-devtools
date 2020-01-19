@@ -20,11 +20,10 @@ class CustomPlugin {
     }
 }
 
-module.exports = {
+const config = {
     entry: {
-        'testApp/logsProxy': ['./src/testApp/logsProxy.js'],
-        'testApp/index': ['./src/testApp/index.ts'],
-        'testApp/testApp': ['./src/testApp/testApp.js'],
+        logsProxy: ['./src/testApp/logsProxy.ts'],
+        'main/index': ['./src/main/index.ts'],
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
@@ -61,7 +60,11 @@ module.exports = {
     },
     target: 'electron-main',
     mode,
-    plugins: [
+    devtool: prod ? false : 'source-map',
+};
+
+if (mode === 'development') {
+    config.plugins = [
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),
@@ -72,12 +75,18 @@ module.exports = {
             chunks: ['testApp/index'],
         }),
         new CustomPlugin(),
-    ],
-    devServer: {
+    ];
+    config.devServer = {
         headers: { 'Access-Control-Allow-Origin': '*' },
         writeToDisk: true,
         port: 1234,
         clientLogLevel: 'silent',
-    },
-    devtool: prod ? false : 'source-map',
-};
+    };
+    config.entry = {
+        logsProxy: ['./src/testApp/logsProxy.ts'],
+        'testApp/index': ['./src/testApp/index.ts'],
+        'testApp/testApp': ['./src/testApp/testApp.js'],
+    };
+}
+
+module.exports = config;

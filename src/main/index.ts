@@ -1,11 +1,24 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 import * as isDev from 'electron-is-dev';
 import * as q from 'q';
-
+import consoleProxy from '../testApp/logsProxy';
 import { InitDevToolsModuleParams, LogItem } from './types';
 
 let devToolsWindow: BrowserWindow | null;
 const LOGS_STORE: LogItem[] = [];
+
+const logger = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    send: (...args: any[]): void => {
+        LOGS_STORE.push({
+            type: args[0],
+            payload: args.slice(1),
+        });
+        if (devToolsWindow) {
+            devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE/log', ...args);
+        }
+    },
+};
 
 const showDevToolsWindow = async (): Promise<void> => {
     if (devToolsWindow) {
@@ -43,10 +56,10 @@ const hideDevToolsWindow = async (): Promise<void> => {
 };
 
 const setHandlersOnWindow = async (win: BrowserWindow): Promise<void> => {
-    // if (devToolsWindow && devToolsWindow.id === win.id) {
-    //     return;
-    // }
-    console.log('patched', win.id);
+    if (devToolsWindow && devToolsWindow.id === win.id) {
+        return;
+    }
+    console.log('patched win.id:', win.id);
 };
 
 const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
@@ -57,19 +70,9 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
         await deffer.promise;
     }
 
-    // const string = fs.readFileSync(__dirname + '/logsProxy.js', 'utf8');
+    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', logger.send);
+    consoleProxy(logger);
 
-    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', (event, ...args) => {
-        console.log(...args);
-        devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE/log', ...args);
-        LOGS_STORE.push({
-            type: args[0],
-            payload: args.slice(1),
-        });
-        console.trace(...LOGS_STORE);
-    });
-
-    console.log(show);
     if (show || (show === undefined && process.env.NODE_ENV === 'development')) {
         await showDevToolsWindow();
     }
@@ -79,15 +82,6 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
     app.on('browser-window-created', (event, newWindow) => {
         setHandlersOnWindow(newWindow);
     });
-};
-const logger = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    send: (...args: any[]): void => {
-        LOGS_STORE.push({
-            type: args[0],
-            payload: args.slice(1),
-        });
-    },
 };
 
 export default {

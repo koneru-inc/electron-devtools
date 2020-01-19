@@ -53,11 +53,13 @@
         "webpack-dev-server": "^3.3.1"
     },
     "scripts": {
-        "build": "cross-env NODE_ENV=production webpack",
-        "dev": "run-p build:main build:renderer",
-        "test": "eslint \"src/**/*js\" \"src/**/*ts\" --fix",
-        "build:main": "webpack-dev-server --config=./webpack.main.config.js",
-        "build:renderer": "webpack-dev-server --config=./webpack.renderer.config.js"
+        "build": "cross-env NODE_ENV=production run-p build:main build:renderer",
+        "build:main": "webpack --config=./webpack.main.config.js",
+        "build:renderer": "webpack --config=./webpack.renderer.config.js",
+        "dev": "run-p serve:main serve:renderer",
+        "serve:main": "webpack-dev-server --config=./webpack.main.config.js",
+        "serve:renderer": "webpack-dev-server --config=./webpack.renderer.config.js",
+        "test": "eslint \"src/**/*js\" \"src/**/*ts\" --fix"
     },
     "dependencies": {
         "lodash": "^4.17.15",

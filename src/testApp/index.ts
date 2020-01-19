@@ -10,13 +10,13 @@ function createWindow(): void {
         width: 500,
         height: 500,
         webPreferences: {
-            preload: path.join(app.getAppPath(), './dist/testApp/logsProxy.js'), // REQUIRED IN EACH NEW BROWSER WINDOW!
+            preload: path.join(app.getAppPath(), './dist/logsProxy.js'), // REQUIRED IN EACH NEW BROWSER WINDOW!
         },
     });
 
     mainWindow.loadFile('./dist/testApp/index.html');
 
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
