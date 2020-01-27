@@ -2,8 +2,12 @@ type DefaultLogger = {
     [P in keyof Console]?: Console[P];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const consoleProxy = ({ send }: { send: (...args: any[]) => void } = require('electron').ipcRenderer): void => {
+interface SenderInctance {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    send: (...args: any[]) => void;
+}
+
+const consoleProxy = ({ send }: SenderInctance = require('electron').ipcRenderer): void => {
     const defaultLogger: DefaultLogger = {};
     const keys = ['log', 'error', 'warn'];
 
