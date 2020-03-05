@@ -1,6 +1,6 @@
 process.once('loaded', () => {
     const defaultLogger = {};
-    const keys = ['log', 'error', 'warn'];
+    const keys = ['error', 'log', 'warn'];
 
     // const isRenderer = () => {
     //     // running in a web browser
@@ -53,7 +53,7 @@ process.once('loaded', () => {
         console[key] = (...args) => {
             try {
                 defaultLogger[key].call(this, ...args);
-                sendToDevTools.send(`@ELECTRON_DEVTOOLS/CONSOLE/${key}`, ...args.map(element => jsonify(element)));
+                sendToDevTools.send(`@ELECTRON_DEVTOOLS/CONSOLE`, ...args, key);
             } catch (error) {
                 defaultLogger.error(error);
             }

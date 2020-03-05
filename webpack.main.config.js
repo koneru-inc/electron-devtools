@@ -9,13 +9,11 @@ class CustomPlugin {
     constructor() {
         this.name = 'ElectronConnect';
         this.electron = require('electron-connect').server.create({ path: __dirname });
-        this.electron.start();
     }
 
     apply(compiler) {
         compiler.hooks.done.tap(this.name, () => {
-            console.log('done');
-            this.electron.restart();
+            this.electron.start();
         });
     }
 }

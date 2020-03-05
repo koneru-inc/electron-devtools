@@ -59,11 +59,11 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 
     // const string = fs.readFileSync(__dirname + '/logsProxy.js', 'utf8');
 
-    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', (event, ...args) => {
-        console.log(...args);
-        devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE/log', ...args);
+    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE', (_, args, key) => {
+        devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE', args, key);
         LOGS_STORE.push({
-            type: args[0],
+            value: args,
+            type: key,
             payload: args.slice(1),
         });
         console.trace(...LOGS_STORE);
@@ -82,9 +82,10 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 };
 const logger = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    send: (...args: any[]): void => {
+    send: (args: any[], key): void => {
         LOGS_STORE.push({
-            type: args[0],
+            type: key,
+            value: args[0],
             payload: args.slice(1),
         });
     },

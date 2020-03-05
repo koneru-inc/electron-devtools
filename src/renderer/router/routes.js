@@ -4,7 +4,7 @@ import Api from '../components/Api/Api.svelte';
 import Rpc from '../components/Rpc/Rpc.svelte';
 
 const routes = {
-    '/console': Console,
+    '/Console': Console,
     '/network/': Network,
     '/api/': Api,
     '/rpc/': Rpc,
