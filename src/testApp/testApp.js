@@ -1,5 +1,7 @@
 const inputLogEl = document.querySelector('.log');
 
+console.log('sdgdeshges');
+
 const sendLog = value => {
     console.log(value);
 };
