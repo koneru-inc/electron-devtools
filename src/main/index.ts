@@ -3,21 +3,10 @@ import * as isDev from 'electron-is-dev';
 import * as q from 'q';
 import consoleProxy from './logsProxy';
 import { InitDevToolsModuleParams, LogItem } from './types';
-
-import * as http from 'http';
+import sendLogsToRenderProcess from './logServer';
 
 let devToolsWindow: BrowserWindow | null;
 const LOGS_STORE: LogItem[] = [];
-
-const sendLogsToRenderProcess = (): void => {
-    http.createServer((request, response) => {
-        if (request.method == 'GET') {
-            response.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-            const data = JSON.stringify(LOGS_STORE);
-            response.end(data);
-        }
-    }).listen(3000);
-};
 
 const logger = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,7 +15,7 @@ const logger = {
             devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE', key, ...args);
             LOGS_STORE.push({
                 type: key,
-                value: args[0],
+                value: args,
                 payload: args.slice(1),
             });
         }
@@ -84,7 +73,7 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 
     ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE', logger.send);
     consoleProxy(logger);
-    sendLogsToRenderProcess();
+    sendLogsToRenderProcess(LOGS_STORE);
 
     if (show || (show === undefined && process.env.NODE_ENV === 'development')) {
         await showDevToolsWindow();
@@ -98,8 +87,8 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 };
 
 export default {
-    showDevToolsWindow,
     init,
-    hideDevToolsWindow,
     logger,
+    showDevToolsWindow,
+    hideDevToolsWindow,
 };

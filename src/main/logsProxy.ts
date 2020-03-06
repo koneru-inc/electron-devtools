@@ -3,9 +3,11 @@ type DefaultLogger = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const consoleProxy = ({ send }: { send: (key, ...args: any[]) => void } = require('electron').ipcRenderer): void => {
+const consoleProxy = (
+    { send }: { send: (event, key, args: any[]) => void } = require('electron').ipcRenderer,
+): void => {
     const defaultLogger: DefaultLogger = {};
-    const keys = ['log', 'error', 'warn'];
+    const keys = ['log', 'error', 'warn', 'trace', 'table'];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const jsonify = (obj: any): string => {
@@ -36,8 +38,12 @@ const consoleProxy = ({ send }: { send: (key, ...args: any[]) => void } = requir
         defaultLogger[key] = console[key];
         console[key] = (...args): void => {
             try {
-                defaultLogger[key].call(this, ...args);
-                send(`@ELECTRON_DEVTOOLS/CONSOLE`, key, ...args.map(element => jsonify(element)));
+                defaultLogger[key].call(this, args);
+                send(
+                    `@ELECTRON_DEVTOOLS/CONSOLE`,
+                    key,
+                    args.map(element => jsonify(element)),
+                );
             } catch (error) {
                 defaultLogger.error(error);
             }
