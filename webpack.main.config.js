@@ -22,7 +22,7 @@ class CustomPlugin {
 
 const config = {
     entry: {
-        logsProxy: ['./src/testApp/logsProxy.ts'],
+        logsProxy: ['./src/main/logsProxy.ts'],
         'main/index': ['./src/main/index.ts'],
     },
     resolve: {
@@ -83,7 +83,7 @@ if (mode === 'development') {
         clientLogLevel: 'silent',
     };
     config.entry = {
-        logsProxy: ['./src/testApp/logsProxy.ts'],
+        logsProxy: ['./src/main/logsProxy.ts'],
         'testApp/index': ['./src/testApp/index.ts'],
         'testApp/testApp': ['./src/testApp/testApp.js'],
     };

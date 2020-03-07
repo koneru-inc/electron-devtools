@@ -1,21 +1,23 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 import * as isDev from 'electron-is-dev';
 import * as q from 'q';
-import consoleProxy from '../testApp/logsProxy';
+import consoleProxy from './logsProxy';
 import { InitDevToolsModuleParams, LogItem } from './types';
+import sendLogsToRenderProcess from './logServer';
 
 let devToolsWindow: BrowserWindow | null;
 const LOGS_STORE: LogItem[] = [];
 
 const logger = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    send: (...args: any[]): void => {
-        LOGS_STORE.push({
-            type: args[0],
-            payload: args.slice(1),
-        });
+    send: (event, key, ...args: any[]): void => {
         if (devToolsWindow) {
-            devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE/log', ...args);
+            devToolsWindow.webContents.send('@ELECTRON_DEVTOOLS/CONSOLE', key, ...args);
+            LOGS_STORE.push({
+                type: key,
+                value: args,
+                payload: args.slice(1),
+            });
         }
     },
 };
@@ -59,7 +61,6 @@ const setHandlersOnWindow = async (win: BrowserWindow): Promise<void> => {
     if (devToolsWindow && devToolsWindow.id === win.id) {
         return;
     }
-    console.log('patched win.id:', win.id);
 };
 
 const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
@@ -70,8 +71,9 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
         await deffer.promise;
     }
 
-    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE/log', logger.send);
+    ipcMain.on('@ELECTRON_DEVTOOLS/CONSOLE', logger.send);
     consoleProxy(logger);
+    sendLogsToRenderProcess(LOGS_STORE);
 
     if (show || (show === undefined && process.env.NODE_ENV === 'development')) {
         await showDevToolsWindow();
@@ -85,8 +87,8 @@ const init = async ({ show }: InitDevToolsModuleParams): Promise<void> => {
 };
 
 export default {
-    showDevToolsWindow,
     init,
-    hideDevToolsWindow,
     logger,
+    showDevToolsWindow,
+    hideDevToolsWindow,
 };

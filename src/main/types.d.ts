@@ -4,5 +4,6 @@ export interface InitDevToolsModuleParams {
 
 export interface LogItem {
     type: string;
+    value: string[];
     payload: string[];
 }
